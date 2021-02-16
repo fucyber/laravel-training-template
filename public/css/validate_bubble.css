@@ -1,0 +1,36 @@
+.errorwrap{ position:relative; }
+.errorwrap.fitcontent{ display:inline-block; max-width:100%;}
+.errorplace{ position:absolute; top:-40px; left:0px; z-index:99;}
+.errorwrap.leftside .errorplace{ right:inherit; left:0;}
+form.cmxform label.error, label.error {
+	/* remove the next line when you have trouble in IE6 with labels in list */
+	color: #fff;
+	background:#FF0000;
+	font-style: italic;
+	font-family:Tahoma, Geneva, sans-serif;
+	font-size:12px !important;
+	font-weight:normal !important;
+	display:block;
+	line-height:1;
+	padding:10px 10px;
+	margin:5px 0 0 0;
+	box-shadow:0 0 5px rgba(0,0,0,0.5);
+	position: relative;
+	border-radius:4px;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+}
+label.error:after {
+	top: 100%;
+	left: 20%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(255, 0, 0, 0);
+	border-top-color: #FF0000;
+	border-width: 6px;
+	margin-left: -6px;
+}

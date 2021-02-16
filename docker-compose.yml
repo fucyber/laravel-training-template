@@ -1,0 +1,56 @@
+version: '3.5'
+
+services:
+  register-app:
+    build:
+      context: '.'
+      dockerfile: 'docker/Dockerfile'
+      args:
+        uid: ${UID}
+    container_name: register-app
+    environment:
+      - APACHE_RUN_USER=#${UID}
+      - APACHE_RUN_GROUP=#${UID}
+    volumes:
+      - .:/var/www/html
+    ports:
+      - 8844:80
+    networks:
+      backend:
+        aliases:
+          - register-app
+  register-mariadb:
+    image: mariadb:10.5.8
+    container_name: register-mariadb
+    restart: always
+    ports:
+      - 8088:3306
+    volumes:
+      - /var/lib/mysql
+    networks:
+      backend:
+        aliases:
+          - db
+    environment:
+      - MYSQL_ROOT_PASSWORD=cp1234
+    command:
+      - '--character-set-server=utf8mb4'
+      - '--collation-server=utf8mb4_unicode_ci'
+  register-pma:
+    image: phpmyadmin/phpmyadmin:5
+    container_name: register-pma
+    depends_on:
+      - register-mariadb
+    restart: always
+    ports:
+      - 8980:80
+    networks:
+      backend:
+        aliases:
+          - phpmyadmin
+    environment:
+      PMA_HOST: register-mariadb
+      PMA_PORT: 3306
+networks:
+  backend:
+    name: register-network
